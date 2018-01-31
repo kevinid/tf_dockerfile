@@ -36,7 +36,6 @@ RUN apt-get install -y curl grep sed dpkg && \
     rm tini.deb && \
     apt-get clean
 RUN echo "export PATH=\"/opt/conda/bin:$PATH\"" >> /etc/bash.bashrc
-RUN source /etc/bash.bashrc
 ENV PATH /opt/conda/bin:$PATH
 
 #cuda
