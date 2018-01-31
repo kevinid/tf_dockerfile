@@ -20,6 +20,9 @@ RUN apt-get update
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
+# vim
+RUN apt-get install vim
+
 # anaconda
 RUN apt-get update --fix-missing && apt-get install -y wget bzip2 ca-certificates \
     libglib2.0-0 libxext6 libsm6 libxrender1 \
@@ -43,6 +46,8 @@ RUN echo "export CUDA_HOME=\"/usr/local/cuda-9.0/\"" >> /etc/bash.bashrc
 RUN echo "export PATH=$PATH:$CUDA_HOME/bin" >> /etc/bash.bashrc
 RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_HOME/lib64" >> /etc/bash.bashrc
 RUN echo "export LIBRARY_PATH=$LIBRARY_PATH:$CUDA_HOME/lib64" >> /etc/bash.bashrc
+RUN apt-get install libcupti-dev
+RUN pip install numpy --upgrade
 
 
 #jupyter
@@ -67,6 +72,7 @@ RUN mkdir -p /var/run/sshd
 RUN mkdir -p /root/.ssh
 RUN sed -ri 's/session    required     pam_loginuid.so/# session    required     pam_loginuid.so/g' /etc/pam.d/sshd
 RUN sed -ri 's/PermitRootLogin  without-password/# PermitRootLogin  without-password/g' /etc/ssh/sshd_config
+RUN sed -ri 's/PermitRootLogin prohibit-password/# PermitRootLogin prohibit-password/g' /etc/ssh/sshd_config
 RUN echo "PermitRootLogin    yes" >> /etc/ssh/sshd_config
 
 # entrypoint
